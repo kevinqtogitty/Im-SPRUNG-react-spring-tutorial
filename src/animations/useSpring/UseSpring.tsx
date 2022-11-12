@@ -1,9 +1,16 @@
-import { styled } from '@stitches/react';
 import React, { useState } from 'react';
-import { animated, CSS, useSpring, config } from 'react-spring';
+import { useSpring } from 'react-spring';
+import {
+  infoStyle,
+  BoxContainer,
+  AnimatedBox,
+  ToggleButton,
+  AnimationContainter,
+  Explanation
+} from '../../styles/styles';
 
 const UseSpring: React.FC = () => {
-  //----------------------------------------------State-less and without event animation----------------------------------------------\\
+  //----------------------------------------------State-less and event-less animation----------------------------------------------\\
 
   //Where are we starting from? Invisible, and off the screen 100% off the y axis i.e. from the bottom
   //Where do we want to end up? Visible, and the position we have determined for our element in our css
@@ -50,75 +57,35 @@ const UseSpring: React.FC = () => {
         A to state/position B
       </p>
       <BoxContainer>
-        {/*Because this animation is not tied to the state of a component it will only animate on pageload*/}
-        <AnimatedBox style={animation1}>
-          <p>State-less & no event</p>
-        </AnimatedBox>
-        {/*This box will only animated when the state has gone from false to true*/}
-        <AnimatedBox style={animation2}>
-          {isActive ? 'Circle!' : 'Square!'}
-        </AnimatedBox>
-        {/*This box will animated via an onlick event*/}
-        <AnimatedBox
-          style={animation3}
-          onClick={fireAnimation}
-          className="clickable"
-        >
-          <p>Onclick event</p>
-        </AnimatedBox>
+        <h1>How we can trigger a useSpring animation</h1>
+        <span>
+          Animates on page load | Animates based on boolean value | Animates via
+          an event
+        </span>
+        <AnimationContainter>
+          {/*Because this animation is not tied to the state of a component it will only animate on pageload*/}
+          <AnimatedBox style={animation1}>
+            <p>State-less & no event</p>
+          </AnimatedBox>
+          {/*This box will only animated when the state has gone from false to true*/}
+          <AnimatedBox style={animation2}>
+            {isActive ? 'Circle!' : 'Square!'}
+          </AnimatedBox>
+          {/*This box will animated via an onlick event*/}
+          <AnimatedBox
+            style={animation3}
+            onClick={fireAnimation}
+            className="clickable"
+          >
+            <p>Onclick event</p>
+          </AnimatedBox>
+        </AnimationContainter>
+        <ToggleButton onClick={() => setIsActive((state) => !state)}>
+          Click to change state
+        </ToggleButton>
       </BoxContainer>
-      <ToggleButton onClick={() => setIsActive((state) => !state)}>
-        Click to change state
-      </ToggleButton>
     </>
   );
 };
 
 export default UseSpring;
-
-const AnimatedBox = styled(animated.div, {
-  height: '7rem',
-  width: '7rem',
-  backgroundColor: 'rgb(255,255,255)',
-  borderRadius: '5px',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  fontSize: '.7rem',
-  padding: '.5rem',
-
-  '&.clickable': {
-    cursor: 'pointer'
-  }
-});
-
-const infoStyle: CSS.Properties = {
-  color: 'white',
-  fontSize: '1.5rem',
-  width: '30rem',
-  position: 'absolute',
-  top: '5rem',
-  left: 'calc(25vw - 12.5rem)'
-};
-
-const BoxContainer = styled('div', {
-  display: 'flex',
-  columnGap: '5rem'
-});
-
-const ToggleButton = styled('button', {
-  display: 'flex',
-  width: '9rem',
-  height: '2rem',
-  justifyContent: 'center',
-  alignItems: 'center',
-  padding: '.5rem',
-  borderRadius: '3px',
-  border: '.5px solid grey',
-  color: 'white',
-  backgroundColor: '#FF7518',
-  cursor: 'pointer',
-  position: 'absolute',
-  left: 'calc(50vw - 4.5rem)',
-  bottom: '18rem'
-});
