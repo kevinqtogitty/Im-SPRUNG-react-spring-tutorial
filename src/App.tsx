@@ -2,8 +2,8 @@ import React from 'react';
 import UseSpring from './animations/useSpring/UseSpring';
 import UseSprings from './animations/useSprings/UseSprings';
 import UseTransition from './animations/useTransition/UseTransition';
-import UseTrail from './animations/useTrail/useTrail';
-import UseChain from './animations/useChain/useChain';
+import UseTrail from './animations/useTrail/UseTrail';
+import UseChain from './animations/useChain/UseChain';
 import { MainContainer } from './styles/styles';
 
 function App() {
