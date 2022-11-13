@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {
-  config,
   useTrail,
   useTransition,
   useSpring,
@@ -13,7 +12,7 @@ import {
   AnimationContainter,
   BoxContainer,
   Explanation,
-  infoStyle,
+  HookExplanation,
   ToggleButton
 } from '../../styles/styles';
 
@@ -24,18 +23,22 @@ const UseChain = () => {
   const [secondAnimationTriggered, setSecondAnimationTriggered] =
     useState(false);
 
-  //Our second animation will be a useTrail to animate 4 circles
-  //These circles are positioned absolute, so they are stacked on top of each other
-  //We need to offset each of them, so we'll declare some offset values for them to interpolate later
+  /*
+    Our second animation will be a useTrail to animate 4 circles
+    These circles are positioned absolute, so they are stacked on top of each other
+    We need to offset each of them, so we'll declare some offset values for them to interpolate later
+  */
   const elements = [
-    { id: 1, message: 'Contact', offset: '-50%' },
-    { id: 2, message: 'About', offset: '-175%' },
-    { id: 3, message: 'Store', offset: '-300%' },
-    { id: 4, message: 'Home', offset: '-425%' }
+    { id: 1, message: '🐷', offset: '-50%' },
+    { id: 2, message: '🐶', offset: '-175%' },
+    { id: 3, message: '🐸', offset: '-300%' },
+    { id: 4, message: '🐮', offset: '-425%' }
   ];
 
-  //We need to make some references for our useChain hook
-  //Our first animation will animate based on the firstAnimationTriggered variable
+  /*
+    We need to make some references for our useChain hook
+    Our first animation will animate based on the firstAnimationTriggered variable
+  */
   const springRef = useSpringRef();
   const spring = useSpring({
     ref: springRef,
@@ -56,23 +59,28 @@ const UseChain = () => {
     opacity: secondAnimationTriggered ? 1 : 0,
     transform: secondAnimationTriggered
       ? 'translateX(-150%)'
-      : 'translateX(10%)'
+      : 'translateX(150%)'
   });
 
   //Our useChain hook takes an array of references of our defined animations
   useChain([springRef, trailRef]); //For our first example
+
+  /*
+    If we want a spring or trail to follow a transition, without a trigger, we can re-write our
+    our trail and spring config with 'to' and 'from'. Then we can supply our useChain a secound argument
+    with a timestamp/delay for each spring as an array.
+
+    EX: useChain([transitionRef, trailRef], [0, 1]) 
+        - Where the transition will immediately run when triggered, and the trail will run after a delay of 1 second
+  */
   useChain([transitionRef, trailRef]); //For our second example
 
   return (
     <>
-      <p style={infoStyle}>
-        As stated in the React-Spring documentation
-        <br />
-        <br />
-        'useTrail has an identical API signature to useSprings the difference is
-        the hook automatically orchestrates the springs to stagger one after the
-        other.'
-      </p>
+      <HookExplanation>
+        To use useChain we just need to configure 2 spring animations and attach
+        a ref to each, and pass those refs to useChain in an array
+      </HookExplanation>
 
       {/*--------------------------------------------------------------------EXAMPLE 1--------------------------------------------------------------------*/}
       <BoxContainer>
@@ -94,9 +102,9 @@ const UseChain = () => {
 
                 Now that our first animation is complete lets trigger our circles.
                 We've declared that our trail will map 4 circles (the length of our dataset).
-                Each time it will render an Animated circle, but we want them to be spread evenly,
+                Each time it will render an animated circle, but we want them to be spread evenly,
                 so we'll add a second transformation to shift each circle by the defined offset value we 
-                gave it above along with the base animation. 
+                gave it above along with the base transition. 
 
                 -- DO NOT UNCOMMENT -- */}
 
@@ -108,7 +116,7 @@ const UseChain = () => {
                   ...animation
                 }}
               >
-                <h2>{elements[i].message}</h2>
+                <span style={{ fontSize: '3rem' }}>{elements[i].message}</span>
               </AnimatedCircle>
             ))}
           </AnimatedBox>
