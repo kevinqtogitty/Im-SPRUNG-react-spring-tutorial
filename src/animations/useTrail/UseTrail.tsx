@@ -4,7 +4,7 @@ import {
   AnimatedBox,
   AnimationContainter,
   BoxContainer,
-  infoStyle,
+  HookExplanation,
   ToggleButton
 } from '../../styles/styles';
 
@@ -20,9 +20,13 @@ const UseTrail = () => {
     { id: 4, message: 'T-Pain' }
   ];
 
-  //You'll notice this is identical to how we use useSprings, the only difference is that its automatically staggered for us
-  //The first argument is the number of items
-  //The second argument is your config object
+  /*
+    You'll notice this is identical to how we use useSprings.
+    The only difference is that its automatically staggered for us
+
+    1st argument is the number of items
+    2nd second argument is your config object 
+  */
   const trail1 = useTrail(elements.length, {
     opacity: isActive ? 1 : 0,
     transform: isActive
@@ -52,15 +56,16 @@ const UseTrail = () => {
 
   return (
     <>
-      <p style={infoStyle}>
+      <HookExplanation>
         As stated in the React-Spring documentation
         <br />
         <br />
         'useTrail has an identical API signature to useSprings the difference is
         the hook automatically orchestrates the springs to stagger one after the
         other.'
-      </p>
+      </HookExplanation>
 
+      {/*--------------------------------------------------------------------EXAMPLE 1--------------------------------------------------------------------*/}
       <BoxContainer>
         <h1>useTrail automatically staggers springs for us</h1>
         <AnimationContainter>
@@ -75,6 +80,7 @@ const UseTrail = () => {
         </ToggleButton>
       </BoxContainer>
 
+      {/*--------------------------------------------------------------------EXAMPLE 2--------------------------------------------------------------------*/}
       {/* <BoxContainer>
         <h1>useTrail automatically staggers animations for us</h1>
         <AnimationContainter>
