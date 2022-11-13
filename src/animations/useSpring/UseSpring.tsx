@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSpring } from 'react-spring';
 import {
-  infoStyle,
+  HookExplanation,
   BoxContainer,
   AnimatedBox,
   ToggleButton,
@@ -12,8 +12,10 @@ import {
 const UseSpring: React.FC = () => {
   //----------------------------------------------State-less and event-less animation----------------------------------------------\\
 
-  //Where are we starting from? Invisible, and off the screen 100% off the y axis i.e. from the bottom
-  //Where do we want to end up? Visible, and the position we have determined for our element in our css
+  /*
+    Where are we starting from? Invisible, and off the screen 100% off the y axis i.e. from the bottom
+    Where do we want to end up? Visible, and the position we have determined for our element in our css
+  */
   const animation1 = useSpring({
     from: { opacity: 0, transform: 'translateY(100%)' },
     to: { opacity: 1, transform: 'translateY(0%)' }
@@ -24,8 +26,10 @@ const UseSpring: React.FC = () => {
   //Here we are going to animate based on the current state of a variable
   const [isActive, setIsActive] = useState(false);
 
-  //We do not need to define a start and end point, simply use a ternary for each property
-  //If you want a property to remain unchanged based on state, then as you can see you can just leave it as a normal css property definition
+  /*
+    We do not need to define a start and end point, simply use a ternary for each property
+    If you want a property to remain unchanged based on state, then as you can see you can just leave it as a normal css property definition
+  */
   const animation2 = useSpring({
     transform: isActive ? 'rotate(720deg)' : 'rotate(0deg)',
     borderRadius: isActive ? '50% 50%' : '0% 0%',
@@ -34,8 +38,10 @@ const UseSpring: React.FC = () => {
 
   //----------------------------------------------Animation on an event without state----------------------------------------------\\
 
-  //To animate without state and on a click/mouseenter/keydown event we need to extract the api object and name our spring
-  //The api object has many methods on it but for now we will focus on the api.start method.
+  /*
+    To animate without state and on a click/mouseenter/keydown event we need to extract the api object and name our spring
+    The api object has many methods on it but for now we will focus on the api.start method. 
+  */
 
   //We must first define the starting point for the api object
   const [animation3, api] = useSpring(() => ({
@@ -52,10 +58,10 @@ const UseSpring: React.FC = () => {
 
   return (
     <>
-      <p style={infoStyle}>
+      <HookExplanation>
         We use useSpring when we want to animate an element from state/position
         A to state/position B
-      </p>
+      </HookExplanation>
       <BoxContainer>
         <h1>How we can trigger a useSpring animation</h1>
         <span>
@@ -63,15 +69,17 @@ const UseSpring: React.FC = () => {
           an event
         </span>
         <AnimationContainter>
-          {/*Because this animation is not tied to the state of a component it will only animate on pageload*/}
+          {/*--------------------------------------------------------------------EXAMPLE 1--------------------------------------------------------------------*/}
           <AnimatedBox style={animation1}>
             <p>State-less & no event</p>
           </AnimatedBox>
-          {/*This box will only animated when the state has gone from false to true*/}
+
+          {/*--------------------------------------------------------------------EXAMPLE 2--------------------------------------------------------------------*/}
           <AnimatedBox style={animation2}>
             {isActive ? 'Circle!' : 'Square!'}
           </AnimatedBox>
-          {/*This box will animated via an onlick event*/}
+
+          {/*--------------------------------------------------------------------EXAMPLE 3--------------------------------------------------------------------*/}
           <AnimatedBox
             style={animation3}
             onClick={fireAnimation}
