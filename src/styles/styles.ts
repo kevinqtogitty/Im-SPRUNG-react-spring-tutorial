@@ -22,14 +22,12 @@ export const AnimatedBox = styled(animated.div, {
   }
 });
 
-export const infoStyle: CSS.Properties = {
+export const HookExplanation = styled('p', {
   color: 'white',
   fontSize: '1.2rem',
   width: '30rem',
-  position: 'absolute',
-  top: '2rem',
-  left: 'calc(20vw - 12.5rem)'
-};
+  margin: '0rem'
+});
 
 export const BoxContainer = styled('div', {
   display: 'flex',
@@ -74,6 +72,14 @@ export const AnimatedCircle = styled(animated.div, {
 });
 
 export const Explanation = styled(animated.article, {
-  padding: '1rem',
-  maxWidth: '30rem'
+  maxWidth: '40rem',
+  lineHeight: '1.4rem'
+});
+
+export const MainContainer = styled('section', {
+  display: 'flex',
+  flexDirection: 'column',
+  rowGap: '3rem',
+  width: '80rem',
+  minHeight: '35rem'
 });
