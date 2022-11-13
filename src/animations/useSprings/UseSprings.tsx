@@ -5,14 +5,9 @@ import {
   AnimationContainter,
   BoxContainer,
   Explanation,
-  infoStyle,
+  HookExplanation,
   ToggleButton
 } from '../../styles/styles';
-
-// interface SpringsProps {
-//   count: number;
-//   configurationFn: (springIndex: number) => {[key: string]: {}},
-// }
 
 const UseSprings = () => {
   const [isActive, setIsActive] = useState(false);
@@ -21,8 +16,10 @@ const UseSprings = () => {
   const elements = [1, 2, 3, 4];
 
   //----------------------------------------------useSpring State animation----------------------------------------------\\
-  //We'll map over our dataset and render 4 boxes with the springs config attached
-  //Then we'll trigger the animation via a button to toggle the state
+  /*
+    We'll map over our dataset and render 4 boxes with the springs config attached
+    Then we'll trigger the animation via a button to toggle the state 
+  */
   const springs1 = useSpring({
     transform: isActive ? 'rotate(720deg)' : 'rotate(0deg)',
     borderRadius: isActive ? '50% 50%' : '0% 0%',
@@ -38,19 +35,24 @@ const UseSprings = () => {
     transform: isActive ? 'translateY(0%)' : 'translateY(100%)'
   });
 
-  //The useSprings hook takes three arguments
-  //The first argument is the length the dataset
-  //The second argument is your dataset mapped with a callback function that returns the config
-  //Third is an array of dependencies, we will omit this here
+  /*
+    The useSprings hook takes three arguments:
+    1. The length of the dataset
+    2. The dataset mapped with a callback function that returns the config
+    3. An array of dependencies, we will omit this here 
+  */
   const springs2 = useSprings(
     elements.length,
     elements.map(() => configAnimation)
   );
 
   //----------------------------------------------Event animation----------------------------------------------\\
-  //Like before in the useSpring introduction we'll first start by array destructuring out our spring and the api object
-  //The first argument in the useSpring hook is the number of times we want to render a particular element
-  //The second argument is a callback function with the starting point of our spring config
+  /*
+    Like before in the useSpring introduction we'll first start by array destructuring out our spring and the api object.
+    Our arguments for this method:
+    1. The length of the dataset
+    2. Anonymous function with our starting point
+  */
   const [springs3, api] = useSprings(
     elements.length,
     () => ({
@@ -69,17 +71,16 @@ const UseSprings = () => {
 
   return (
     <>
-      <p style={infoStyle}>
+      <HookExplanation>
         There are a few ways to animate multiple elements. We can use useSpring
         or use the dedicated useSprings hook
-      </p>
-
+      </HookExplanation>
+      {/*--------------------------------------------------------------------EXAMPLE 1--------------------------------------------------------------------*/}
       <BoxContainer>
         <h1>useSpring state method</h1>
         <Explanation>
-          Given the dataset we'll map over each item, on each loop it will
-          render an animated element with the animation attached to it. And we
-          simply need to trigger the animation via a state variable
+          Given the data set we'll map and render out boxs with our spring
+          attached. Trigger the spring when the state changes
         </Explanation>
         <AnimationContainter>
           {elements.map((element) => (
@@ -93,6 +94,7 @@ const UseSprings = () => {
         </ToggleButton>
       </BoxContainer>
 
+      {/*--------------------------------------------------------------------EXAMPLE 2--------------------------------------------------------------------*/}
       {/* <BoxContainer>
         <h1>useSprings state method</h1>
         <Explanation>
@@ -112,12 +114,13 @@ const UseSprings = () => {
         </ToggleButton>
       </BoxContainer> */}
 
+      {/*--------------------------------------------------------------------EXAMPLE 3--------------------------------------------------------------------*/}
       {/* <BoxContainer>
         <h1>useSprings on event method</h1>
         <Explanation>
           We'll map and render animated boxes given the length of our dataset
           (the first argument of our useSprings hooks). Click to fire the
-          handler fucntion. Notice everytime we click if after it will jump to
+          handler function. Notice everytime we click if after it will jump to
           the beginning of the animation and immediateley run
         </Explanation>
         <AnimationContainter>
