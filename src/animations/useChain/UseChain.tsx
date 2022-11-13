@@ -67,7 +67,7 @@ const UseChain = () => {
 
   /*
     If we want a spring or trail to follow a transition, without a trigger, we can re-write our
-    our trail and spring config with 'to' and 'from'. Then we can supply our useChain a secound argument
+    our trail and spring config with 'to' and 'from'. Then we can supply our useChain a second argument
     with a timestamp/delay for each spring as an array.
 
     EX: useChain([transitionRef, trailRef], [0, 1]) 
