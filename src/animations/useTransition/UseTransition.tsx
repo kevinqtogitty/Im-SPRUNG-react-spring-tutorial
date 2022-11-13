@@ -4,7 +4,7 @@ import {
   AnimatedBox,
   AnimationContainter,
   BoxContainer,
-  infoStyle,
+  HookExplanation,
   ToggleButton
 } from '../../styles/styles';
 
@@ -12,10 +12,17 @@ const UseTransition = () => {
   const [isActive, setIsActive] = useState(false);
 
   //----------------------------------------------Single element mounting and unmounting----------------------------------------------\\
-  //The config object for useTransition is different than our useSpring,
-  //from: What is the starting state and position of our element? Invisible offscreen to the right
-  //enter: What is the mounted state and position of our element? Visible mounted in its designated position
-  //leave: What is the unmounted state and position of our element? Invisble offscreen to the left
+  /*
+    The config object for useTransition is different than our useSpring.
+    from: What is the starting state and position of our element? 
+          - Starts invisible, comes in offscreen from the right and will rotate 360deg, bg starts out white, text starts out white
+
+    enter: What is the mounted state and position of our element? 
+          - Is fully visible, mounted in its designated position rotation will have finished, bg is orange, text remains white
+
+    leave: What is the unmounting animation of our element? 
+          - Turns invisble, goes offscreen to the left rotates -360deg, bg turns white, text stays white
+  */
   const transition = useTransition(isActive, {
     from: {
       opacity: 0,
@@ -35,12 +42,14 @@ const UseTransition = () => {
       backgroundColor: 'white',
       color: 'white'
     },
-    config: config.molasses //React-Spring provides us some pre-built mass/tension/friction configs for us in the config object
+    config: config.molasses //React-Spring provides us some pre-defined mass/tension/friction configs for us in the config object
   });
 
   //----------------------------------------------Multiple elements mounting and unmounting----------------------------------------------\\
-  //We will use the same configuration as above, except this time we want to mount and unmount several elements
-  //In out transition callback function we just have to map over each item, return an animated element with the spring applied
+  /*
+    We will use the same configuration as above, except this time we want to mount and unmount several elements
+    In out transition callback function we just have to map over each item, return an animated element with the spring applied
+  */
   const elements = [
     { id: 1, message: 'Im' },
     { id: 2, message: 'Sprung' },
@@ -50,12 +59,13 @@ const UseTransition = () => {
 
   return (
     <>
-      <p style={infoStyle}>
+      <HookExplanation>
         We the useTransition hook for mounting and unmounting an
         element/elements to the dom. As opposed to the useSpring where the
         elements are already on the dom tree and remain there after their spring
-      </p>
+      </HookExplanation>
 
+      {/*--------------------------------------------------------------------EXAMPLE 1--------------------------------------------------------------------*/}
       <BoxContainer>
         <h1>useTransition, mounting and unmounting a single element</h1>
         <AnimationContainter>
@@ -73,6 +83,7 @@ const UseTransition = () => {
         </ToggleButton>
       </BoxContainer>
 
+      {/*--------------------------------------------------------------------EXAMPLE 2--------------------------------------------------------------------*/}
       {/* <BoxContainer>
         <h1>useTransition, mounting and unmounting of multiple elements</h1>
         <AnimationContainter>
