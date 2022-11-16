@@ -9,9 +9,8 @@ import {
   Explanation
 } from '../../styles/styles';
 
-const UseSpring: React.FC = () => {
-  //----------------------------------------------State-less and event-less animation----------------------------------------------\\
-
+//----------------------------------------------State-less and event-less animation----------------------------------------------\\
+const Example1 = () => {
   /*
     Where are we starting from? Invisible, and off the screen 100% off the y axis i.e. from the bottom
     Where do we want to end up? Visible, and the position we have determined for our element in our css
@@ -21,8 +20,15 @@ const UseSpring: React.FC = () => {
     to: { opacity: 1, transform: 'translateY(0%)' }
   });
 
-  //----------------------------------------------Animation based on state----------------------------------------------\\
+  return (
+    <AnimatedBox style={animation1}>
+      <p>State-less & no event</p>
+    </AnimatedBox>
+  );
+};
 
+//----------------------------------------------Animation based on state----------------------------------------------\\
+const Example2 = () => {
   //Here we are going to animate based on the current state of a variable
   const [isActive, setIsActive] = useState(false);
 
@@ -36,8 +42,20 @@ const UseSpring: React.FC = () => {
     transformOrigin: 'center'
   });
 
-  //----------------------------------------------Animation on an event without state----------------------------------------------\\
+  return (
+    <>
+      <AnimatedBox
+        style={animation2}
+        onClick={() => setIsActive((state) => !state)}
+      >
+        {isActive ? 'Click Me!' : 'Square!'}
+      </AnimatedBox>
+    </>
+  );
+};
 
+//----------------------------------------------Animation on an event without state----------------------------------------------\\
+const Example3 = () => {
   /*
     To animate without state and on a click/mouseenter/keydown event we need to extract the api object and name our spring
     The api object has many methods on it but for now we will focus on the api.start method. 
@@ -57,6 +75,18 @@ const UseSpring: React.FC = () => {
   };
 
   return (
+    <AnimatedBox
+      style={animation3}
+      onClick={fireAnimation}
+      className="clickable"
+    >
+      <p>Onclick event</p>
+    </AnimatedBox>
+  );
+};
+
+const UseSpring: React.FC = () => {
+  return (
     <>
       <HookExplanation>
         We use useSpring when we want to animate an element from state/position
@@ -69,28 +99,10 @@ const UseSpring: React.FC = () => {
           an event
         </span>
         <AnimationContainter>
-          {/*--------------------------------------------------------------------EXAMPLE 1--------------------------------------------------------------------*/}
-          <AnimatedBox style={animation1}>
-            <p>State-less & no event</p>
-          </AnimatedBox>
-
-          {/*--------------------------------------------------------------------EXAMPLE 2--------------------------------------------------------------------*/}
-          <AnimatedBox style={animation2}>
-            {isActive ? 'Circle!' : 'Square!'}
-          </AnimatedBox>
-
-          {/*--------------------------------------------------------------------EXAMPLE 3--------------------------------------------------------------------*/}
-          <AnimatedBox
-            style={animation3}
-            onClick={fireAnimation}
-            className="clickable"
-          >
-            <p>Onclick event</p>
-          </AnimatedBox>
+          <Example1 />
+          <Example2 />
+          <Example3 />
         </AnimationContainter>
-        <ToggleButton onClick={() => setIsActive((state) => !state)}>
-          Click to change state
-        </ToggleButton>
       </BoxContainer>
     </>
   );
