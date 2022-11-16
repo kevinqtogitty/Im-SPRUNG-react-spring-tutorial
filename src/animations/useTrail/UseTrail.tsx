@@ -8,10 +8,10 @@ import {
   ToggleButton
 } from '../../styles/styles';
 
-const UseTrail = () => {
+//----------------------------------------------Staggered spring animations using useTrail----------------------------------------------\\
+const Example1 = () => {
   const [isActive, setIsActive] = useState(false);
 
-  //----------------------------------------------Staggered spring animations using useTrail----------------------------------------------\\
   //Our dataset
   const elements = [
     { id: 1, message: 'Im' },
@@ -37,7 +37,27 @@ const UseTrail = () => {
     delay: 500 //We can also add a delay of 500ms
   });
 
-  //----------------------------------------------Staggered spring animations using useTrail----------------------------------------------\\
+  return (
+    <BoxContainer>
+      <h1>useTrail automatically staggers springs for us</h1>
+      <AnimationContainter>
+        {trail1.map((transition, i) => (
+          <AnimatedBox style={transition}>
+            <h1>{elements[i].message}</h1>
+          </AnimatedBox>
+        ))}
+      </AnimationContainter>
+      <ToggleButton onClick={() => setIsActive((state) => !state)}>
+        Click to change state
+      </ToggleButton>
+    </BoxContainer>
+  );
+};
+
+//----------------------------------------------Staggered spring animations using useTrail----------------------------------------------\\
+const Example2 = () => {
+  const [isActive, setIsActive] = useState(false);
+
   //Here is a second example to show how we can use the useTrail hook for slighty incorrect quotes by dead philosophers
   const message = [
     { id: 1, side1: 'On', side2: 'a' },
@@ -55,6 +75,24 @@ const UseTrail = () => {
   });
 
   return (
+    <BoxContainer>
+      <h1>useTrail automatically staggers animations for us</h1>
+      <AnimationContainter>
+        {trail2.map((transition, i) => (
+          <AnimatedBox style={transition}>
+            <h1>{!isActive ? message[i].side1 : message[i].side2}</h1>
+          </AnimatedBox>
+        ))}
+      </AnimationContainter>
+      <ToggleButton onClick={() => setIsActive((state) => !state)}>
+        Click to fire
+      </ToggleButton>
+    </BoxContainer>
+  );
+};
+
+const UseTrail = () => {
+  return (
     <>
       <HookExplanation>
         As stated in the React-Spring documentation
@@ -65,35 +103,8 @@ const UseTrail = () => {
         other.'
       </HookExplanation>
 
-      {/*--------------------------------------------------------------------EXAMPLE 1--------------------------------------------------------------------*/}
-      <BoxContainer>
-        <h1>useTrail automatically staggers springs for us</h1>
-        <AnimationContainter>
-          {trail1.map((transition, i) => (
-            <AnimatedBox style={transition}>
-              <h1>{elements[i].message}</h1>
-            </AnimatedBox>
-          ))}
-        </AnimationContainter>
-        <ToggleButton onClick={() => setIsActive((state) => !state)}>
-          Click to change state
-        </ToggleButton>
-      </BoxContainer>
-
-      {/*--------------------------------------------------------------------EXAMPLE 2--------------------------------------------------------------------*/}
-      {/* <BoxContainer>
-        <h1>useTrail automatically staggers animations for us</h1>
-        <AnimationContainter>
-          {trail2.map((transition, i) => (
-            <AnimatedBox style={transition}>
-              <h1>{!isActive ? message[i].side1 : message[i].side2}</h1>
-            </AnimatedBox>
-          ))}
-        </AnimationContainter>
-        <ToggleButton onClick={() => setIsActive((state) => !state)}>
-          Click to fire
-        </ToggleButton>
-      </BoxContainer> */}
+      <Example1 />
+      {/* <Example2 /> */}
     </>
   );
 };
