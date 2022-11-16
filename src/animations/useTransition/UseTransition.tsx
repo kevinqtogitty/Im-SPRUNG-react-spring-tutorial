@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { config, useTransition } from '@react-spring/web';
+import { config, TransitionFn, useTransition } from '@react-spring/web';
 import {
   AnimatedBox,
   AnimationContainter,
@@ -8,10 +8,77 @@ import {
   ToggleButton
 } from '../../styles/styles';
 
+interface ExampleProps {
+  transition: TransitionFn<
+    boolean,
+    {
+      opacity: number;
+      transform: string;
+      backgroundColor: string;
+      color: string;
+    }
+  >;
+  setIsActive: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+//----------------------------------------------Single element mounting and unmounting----------------------------------------------\\
+const Example1: React.FC<ExampleProps> = ({ transition, setIsActive }) => {
+  return (
+    <BoxContainer>
+      <h1>useTransition, mounting and unmounting a single element</h1>
+      <AnimationContainter>
+        {transition(
+          (spring, item) =>
+            item && (
+              <AnimatedBox style={spring}>
+                <h1>Hey ho!</h1>
+              </AnimatedBox>
+            )
+        )}
+      </AnimationContainter>
+      <ToggleButton onClick={() => setIsActive((state) => !state)}>
+        Click to change state
+      </ToggleButton>
+    </BoxContainer>
+  );
+};
+
+//----------------------------------------------Multiple elements mounting and unmounting----------------------------------------------\\
+const Example2: React.FC<ExampleProps> = ({ transition, setIsActive }) => {
+  /*
+    We will use the same configuration, except this time we want to mount and unmount several elements
+    In out transition callback function we just have to map over each item, return an animated element with the spring applied
+  */
+  const elements = [
+    { id: 1, message: 'Im' },
+    { id: 2, message: 'Sprung' },
+    { id: 3, message: 'By' },
+    { id: 4, message: 'T-Pain' }
+  ];
+  return (
+    <BoxContainer>
+      <h1>useTransition, mounting and unmounting of multiple elements</h1>
+      <AnimationContainter>
+        {transition(
+          (spring, item) =>
+            item &&
+            elements.map((element) => (
+              <AnimatedBox style={spring}>
+                <h1>{element.message}</h1>
+              </AnimatedBox>
+            ))
+        )}
+      </AnimationContainter>
+      <ToggleButton onClick={() => setIsActive((state) => !state)}>
+        Click to fire
+      </ToggleButton>
+    </BoxContainer>
+  );
+};
+
 const UseTransition = () => {
   const [isActive, setIsActive] = useState(false);
 
-  //----------------------------------------------Single element mounting and unmounting----------------------------------------------\\
   /*
     The config object for useTransition is different than our useSpring.
     from: What is the starting state and position of our element? 
@@ -45,18 +112,6 @@ const UseTransition = () => {
     config: config.molasses //React-Spring provides us some pre-defined mass/tension/friction configs for us in the config object
   });
 
-  //----------------------------------------------Multiple elements mounting and unmounting----------------------------------------------\\
-  /*
-    We will use the same configuration as above, except this time we want to mount and unmount several elements
-    In out transition callback function we just have to map over each item, return an animated element with the spring applied
-  */
-  const elements = [
-    { id: 1, message: 'Im' },
-    { id: 2, message: 'Sprung' },
-    { id: 3, message: 'By' },
-    { id: 4, message: 'T-Pain' }
-  ];
-
   return (
     <>
       <HookExplanation>
@@ -65,42 +120,8 @@ const UseTransition = () => {
         elements are already on the dom tree and remain there after their spring
       </HookExplanation>
 
-      {/*--------------------------------------------------------------------EXAMPLE 1--------------------------------------------------------------------*/}
-      <BoxContainer>
-        <h1>useTransition, mounting and unmounting a single element</h1>
-        <AnimationContainter>
-          {transition(
-            (spring, item) =>
-              item && (
-                <AnimatedBox style={spring}>
-                  <h1>Hey ho!</h1>
-                </AnimatedBox>
-              )
-          )}
-        </AnimationContainter>
-        <ToggleButton onClick={() => setIsActive((state) => !state)}>
-          Click to change state
-        </ToggleButton>
-      </BoxContainer>
-
-      {/*--------------------------------------------------------------------EXAMPLE 2--------------------------------------------------------------------*/}
-      {/* <BoxContainer>
-        <h1>useTransition, mounting and unmounting of multiple elements</h1>
-        <AnimationContainter>
-          {transition(
-            (spring, item) =>
-              item &&
-              elements.map((element) => (
-                <AnimatedBox style={spring}>
-                  <h1>{element.message}</h1>
-                </AnimatedBox>
-              ))
-          )}
-        </AnimationContainter>
-        <ToggleButton onClick={() => setIsActive((state) => !state)}>
-          Click to fire
-        </ToggleButton>
-      </BoxContainer> */}
+      <Example1 transition={transition} setIsActive={setIsActive} />
+      {/* <Example2 transition={transition} setIsActive={setIsActive} /> */}
     </>
   );
 };
